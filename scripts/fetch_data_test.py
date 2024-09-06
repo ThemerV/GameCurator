@@ -43,7 +43,8 @@ def load_endpoints():
         return json.load(e)
 
 # Fetch data from the API
-def fetch_data(endpoint, fields):
+######### max_items for testing #########
+def fetch_data(endpoint, fields, max_items):
     limit = 500
     offset = 0
     total_fetched = 0
@@ -61,6 +62,14 @@ def fetch_data(endpoint, fields):
                 break
             all_data.extend(game_data)
             fetched_count = len(game_data)
+            ###### Testing block ######
+            if total_fetched + fetched_count > max_items:
+                data = data[:max_items - total_fetched]
+                fetched_count = len(data)
+                all_data.extend(data)
+                total_fetched += fetched_count
+                break
+            ###########################
             total_fetched += fetched_count
             offset += limit
             sys.stdout.write(f"{fetched_count} {endpoint} fetched")
@@ -70,6 +79,11 @@ def fetch_data(endpoint, fields):
         else:
             print(f"Error fetching data: {response.status_code} {response.text}")
             break
+
+        ###### Testing block ######
+        if total_fetched >= max_items:
+            break
+        ###########################
 
         time.sleep(0.25)  # Rate limit
 
@@ -96,13 +110,20 @@ def save_log(endpoint, total_fetched):
 def main():
     endpoints = load_endpoints()
 
+    ###### max_items for testing ######
+    max_items = 1000
+    ###################################
+
     # Iterate over each endpoint and fetch data
     for endpoint_data in endpoints:
         endpoint = endpoint_data['endpoint']
         fields = endpoint_data['fields']
 
         print(f"Fetching {endpoint}...")
-        games_data, total_fetched = fetch_data(endpoint, fields)
+
+        ####### max_items for testing ######
+        games_data, total_fetched = fetch_data(endpoint, fields, max_items)
+        ####################################
 
         global offset
         offset = 0
