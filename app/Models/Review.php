@@ -10,9 +10,14 @@ class Review extends Model
     use HasFactory;
 
     protected $fillable = [
+        'game_igdb_id',
         'title',
         'rating',
         'review',
-        'game_id',
+        'likes',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

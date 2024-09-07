@@ -5,24 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Franchise extends Model
+class Screenshot extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'igdb_id',
+        'animated',
         'checksum',
-        'cover',
         'game',
-        'name',
-        'region',
+        'height',
+        'image_id',
+        'url',
+        'width',
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
+    public function game() {
+        return $this->belongsTo(Game::class);
     }
 
-    public function cover() {
-        return $this->hasOne(Cover::class);
-    }
 }

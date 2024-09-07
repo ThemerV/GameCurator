@@ -11,7 +11,14 @@ class Theme extends Model
 
     protected $fillable = [
         'igdb_id',
+        'checksum',
         'name',
-        'slug'
+        'slug',
+        'url',
     ];
+
+    public function games() {
+        return $this->belongsToMany(Game::class);
+    }
+
 }

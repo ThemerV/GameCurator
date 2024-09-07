@@ -5,25 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Collection extends Model
+class CompanyWebsite extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'igdb_id',
+        'category',
         'checksum',
-        'games',
-        'name',
-        'slug',
+        'trusted',
         'url',
     ];
 
-    protected $casts = [
-        'games' => 'array',
-    ];
-
-    public function games() {
-        return $this->hasMany(Game::class);
+    public function company() {
+        return $this->belongsTo(Company::class);
     }
 
 }

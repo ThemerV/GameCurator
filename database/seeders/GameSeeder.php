@@ -38,6 +38,7 @@ class GameSeeder extends Seeder
                 'cover' => $value->cover ?? null,
                 'dlcs' => $value->dlcs ?? null,
                 'expansions' => $value->expansions ?? null,
+                'first_release_date' => $value->first_release_date ?? null,
                 'franchises' => $value->franchises ?? null,
                 'game_localizations' => $value->game_localizations ?? null,
                 'game_modes' => $value->game_modes ?? null,

@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Genre extends Model
+class PlatformFamily extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'igdb_id',
-        'checksum',
-        'name',
-        'slug',
-        'url',
+        "id",
+        "checksum",
+        "name",
+        "slug"
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
+    public function platforms() {
+        return $this->hasMany(Platform::class);
     }
 
 }

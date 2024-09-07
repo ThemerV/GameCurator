@@ -10,12 +10,18 @@ class Artwork extends Model
     use HasFactory;
 
     protected $fillable = [
+        'igdb_id',
         'animated',
         'checksum',
-        'game_igdb_id',
+        'game',
         'height',
         'image_id',
         'url',
-        'width'
+        'width',
     ];
+
+    public function game() {
+        return $this->belongsTo(Game::class);
+    }
+
 }

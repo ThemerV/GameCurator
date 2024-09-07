@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            CategorySeeder::class,
             GameModeSeeder::class,
             GenreSeeder::class,
             PlayerPerspectiveSeeder::class,

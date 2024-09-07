@@ -33,6 +33,7 @@ class Game extends Model
         'screenshots',
         'similar_games',
         'slug',
+        'status',
         'storyline',
         'summary',
         'themes',
@@ -64,4 +65,73 @@ class Game extends Model
         'websites' => 'array',
         'first_release_date' => 'datetime',
     ];
+
+    public function artworks() {
+        return $this->hasMany(Artwork::class);
+    }
+
+    public function collections() {
+        return $this->belongsTo(Collection::class);
+    }
+
+    public function cover() {
+        return $this->hasOne(Cover::class);
+    }
+
+    public function franchises() {
+        return $this->belongsToMany(Franchise::class);
+    }
+
+    public function gameLocalizations() {
+        return $this->hasMany(GameLocalization::class);
+    }
+
+    public function gameModes() {
+        return $this->hasMany(GameMode::class);
+    }
+
+    public function genres() {
+        return $this->hasMany(Genre::class);
+    }
+
+    public function involvedCompanies() {
+        return $this->hasMany(InvolvedCompany::class);
+    }
+
+    public function languageSupports() {
+        return $this->hasMany(LanguageSupport::class);
+    }
+
+    public function multiplayerModes() {
+        return $this->hasMany(MultiplayerMode::class);
+    }
+
+    public function platforms() {
+        return $this->hasMany(Platform::class);
+    }
+
+    public function playerPerspectives() {
+        return $this->hasMany(PlayerPerspective::class);
+    }
+
+    public function releaseDates() {
+        return $this->hasMany(ReleaseDate::class);
+    }
+
+    public function screenshots() {
+        return $this->hasMany(Screenshot::class);
+    }
+
+    public function themes() {
+        return $this->hasMany(Theme::class);
+    }
+
+    public function videos() {
+        return $this->hasMany(GameVideo::class);
+    }
+
+    public function websites() {
+        return $this->hasMany(Website::class);
+    }
+
 }

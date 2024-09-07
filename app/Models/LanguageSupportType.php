@@ -5,24 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Franchise extends Model
+class LanguageSupportType extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'cover',
-        'game',
         'name',
-        'region',
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
-    }
-
-    public function cover() {
-        return $this->hasOne(Cover::class);
+    public function languageSupport() {
+        return $this->HasMany(LanguageSupport::class);
     }
 }
