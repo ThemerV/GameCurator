@@ -49,7 +49,7 @@ def fetch_data(endpoint, fields):
     total_fetched = 0
     all_data = []
 
-    while True:
+    for i in range(len(fields)):
         url = f'{API_URL}{endpoint}'
         body= f'fields {",".join(fields)}; limit {limit}; offset {offset};'
 

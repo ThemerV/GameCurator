@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->json('artworks')->nullable();
-            $table->string('category')->nullable();
+            $table->integer('category')->nullable();
             $table->uuid('checksum')->nullable();
             $table->json('collections')->nullable();
             $table->integer('cover')->nullable();
             $table->json('dlcs')->nullable();
             $table->json('expansions')->nullable();
+            $table->timestamp('first_release_date')->nullable();
             $table->json('franchises')->nullable();
             $table->json('game_localizations')->nullable();
             $table->json('game_modes')->nullable();
@@ -37,6 +38,7 @@ return new class extends Migration
             $table->json('similar_games')->nullable();
             $table->string('slug')->unique();
             $table->json('standalone_expansions')->nullable();
+            $table->integer('status')->nullable();
             $table->text('storyline')->nullable();
             $table->text('summary')->nullable();
             $table->json('themes')->nullable();

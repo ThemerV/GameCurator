@@ -50,7 +50,7 @@ def fetch_data(endpoint, fields, max_items):
     total_fetched = 0
     all_data = []
 
-    while True:
+    for i in range(len(fields)):
         url = f'{API_URL}{endpoint}'
         body= f'fields {",".join(fields)}; limit {limit}; offset {offset};'
 
@@ -64,9 +64,9 @@ def fetch_data(endpoint, fields, max_items):
             fetched_count = len(game_data)
             ###### Testing block ######
             if total_fetched + fetched_count > max_items:
-                data = data[:max_items - total_fetched]
-                fetched_count = len(data)
-                all_data.extend(data)
+                game_data = game_data[:max_items - total_fetched]
+                fetched_count = len(game_data)
+                all_data.extend(game_data)
                 total_fetched += fetched_count
                 break
             ###########################
@@ -111,7 +111,7 @@ def main():
     endpoints = load_endpoints()
 
     ###### max_items for testing ######
-    max_items = 1000
+    max_items = 100
     ###################################
 
     # Iterate over each endpoint and fetch data
