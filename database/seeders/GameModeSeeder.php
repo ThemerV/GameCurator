@@ -4,25 +4,30 @@ namespace Database\Seeders;
 
 use App\Models\GameMode;
 use Illuminate\Database\Seeder;
+use JsonMachine\Items;
 
 class GameModeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $game_modes = [
-            ['igdb_id' => '1', 'name' => 'Single Player', 'slug' => 'single-player'],
-            ['igdb_id' => '2', 'name' => 'Multiplayer', 'slug' => 'multiplayer'],
-            ['igdb_id' => '3', 'name' => 'Co-operative', 'slug' => 'co-operative'],
-            ['igdb_id' => '4', 'name' => 'Split screen', 'slug' => 'split-screen'],
-            ['igdb_id' => '5', 'name' => 'Massively Multiplayer Online (MMO)', 'slug' => 'massively-multiplayer-online-mmo'],
-            ['igdb_id' => '6', 'name' => 'Battle Royale', 'slug' => 'battle-royale'],
-        ];
+        GameMode::truncate();
 
-        foreach ($game_modes as $game_mode) {
-            GameMode::create($game_mode);
+        $gameModes = Items::fromFile("scripts/data/game_modes_data.json");
+
+        foreach ($gameModes as $key => $value) {
+            $exists = GameMode::where('igdb_id', $value->id)->exists();
+
+            if ($exists) {
+                continue;
+            }
+
+            GameMode::create([
+                'igdb_id' => $value->id,
+                'checksum' => $value->checksum ?? null,
+                'name' => $value->name ?? null,
+                'slug' => $value->slug ?? null,
+                'url' => $value->url ?? null,
+            ]);
         }
     }
 }

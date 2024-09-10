@@ -2,16 +2,36 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Cover;
 use Illuminate\Database\Seeder;
+use JsonMachine\Items;
 
 class CoverSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        Cover::truncate();
+
+        $covers = Items::fromFile("scripts/data/covers_data.json");
+
+        foreach ($covers as $key => $value) {
+            $exists = Cover::where('igdb_id', $value->id)->exists();
+
+            if ($exists) {
+                continue;
+            }
+
+            Cover::create([
+                'igdb_id' => $value->id,
+                'checksum' => $value->checksum ?? null,
+                'animated' => $value->animated ?? null,
+                'game' => $value->game ?? null,
+                'game_localization' => $value->game_localization ?? null,
+                'height' => $value->height ?? null,
+                'image_id' => $value->image_id ?? null,
+                'url' => $value->url ?? null,
+                'width' => $value->width ?? null,
+            ]);
+        }
     }
 }

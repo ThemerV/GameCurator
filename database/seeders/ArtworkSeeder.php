@@ -3,30 +3,33 @@
 namespace Database\Seeders;
 
 use App\Models\Artwork;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
+use JsonMachine\Items;
 
 class ArtworkSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         Artwork::truncate();
 
-        $json = File::get("scripts/data/artworks_data.json");
-        $artworks = json_decode($json);
+        $artworks = Items::fromFile("scripts/data/artworks_data.json");
 
         foreach ($artworks as $key => $value) {
+            $exists = Artwork::where('igdb_id', $value->id)->exists();
+
+            if ($exists) {
+                continue;
+            }
+
             Artwork::create([
-                'animated' => $value->animated,
-                'game_idgb_id' => $value->game,
-                'height' => $value->height,
-                'image_id' => $value->image_id,
-                'url' => $value->url,
-                'width' => $value->width
+                'igdb_id' => $value->id,
+                'animated' => $value->animated ?? null,
+                'checksum' => $value->checksum ?? null,
+                'game' => $value->game ?? null,
+                'height' => $value->height ?? null,
+                'image_id' => $value->image_id ?? null,
+                'url' => $value->url ?? null,
+                'width' => $value->width ?? null,
             ]);
         }
     }

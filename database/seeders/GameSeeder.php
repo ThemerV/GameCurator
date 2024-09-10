@@ -2,14 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Jobs\SeedGamesJob;
 use App\Models\Game;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use JsonMachine\Items;
-
 class GameSeeder extends Seeder
 {
     /**
@@ -25,7 +20,6 @@ class GameSeeder extends Seeder
             $exists = Game::where('igdb_id', $value->id)->exists();
 
             if ($exists) {
-                print_r($exists);
                 continue;
             }
 

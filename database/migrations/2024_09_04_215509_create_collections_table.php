@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
-            $table->integer('games_igdb_id')->unique();
+            $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
+            $table->json('games')->nullable();
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->string('url')->nullable();

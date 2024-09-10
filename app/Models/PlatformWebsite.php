@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PlatformWebsiteCategoryEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,10 @@ class PlatformWebsite extends Model
         "checksum",
         "trusted",
         "url"
+    ];
+
+    protected $casts = [
+        'category' => PlatformWebsiteCategoryEnum::class,
     ];
 
     public function platform() {

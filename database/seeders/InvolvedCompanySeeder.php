@@ -2,16 +2,35 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\InvolvedCompany;
 use Illuminate\Database\Seeder;
+use JsonMachine\Items;
 
 class InvolvedCompanySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        InvolvedCompany::truncate();
+
+        $involvedCompanies = Items::fromFile("scripts/data/involved_companies_data.json");
+
+        foreach ($involvedCompanies as $key => $value) {
+            $exists = InvolvedCompany::where('igdb_id', $value->id)->exists();
+
+            if ($exists) {
+                continue;
+            }
+
+            InvolvedCompany::create([
+                'igdb_id' => $value->id,
+                'checksum' => $value->checksum ?? null,
+                'company' => $value->company ?? null,
+                'developer' => $value->developer ?? null,
+                'game' => $value->game ?? null,
+                'porting' => $value->porting ?? null,
+                'publisher' => $value->publisher ?? null,
+                'supporting' => $value->supporting ?? null,
+            ]);
+        }
     }
 }

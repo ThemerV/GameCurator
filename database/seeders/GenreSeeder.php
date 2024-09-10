@@ -4,29 +4,30 @@ namespace Database\Seeders;
 
 use App\Models\Genre;
 use Illuminate\Database\Seeder;
+use JsonMachine\Items;
 
 class GenreSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $genres = [
-            ['igdb_id' => '2', 'name' => 'Point-and-click', 'slug' => 'point-and-click'],
-            ['igdb_id' => '4', 'name' => 'Fighting', 'slug' => 'fighting'],
-            ['igdb_id' => '5', 'name' => 'Shooter', 'slug' => 'shooter'],
-            ['igdb_id' => '7', 'name' => 'Music', 'slug' => 'music'],
-            ['igdb_id' => '8', 'name' => 'Platform', 'slug' => 'platform'],
-            ['igdb_id' => '9', 'name' => 'Puzzle', 'slug' => 'puzzle'],
-            ['igdb_id' => '10', 'name' => 'Racing', 'slug' => 'racing'],
-            ['igdb_id' => '11', 'name' => 'Real Time Strategy (RTS)', 'slug' => 'real-time-strategy-rts'],
-            ['igdb_id' => '12', 'name' => 'Role-playing (RPG)', 'slug' => 'role-playing-rpg'],
-            ['igdb_id' => '13', 'name' => 'Simulator', 'slug' => 'simulator']
-        ];
+        Genre::truncate();
 
-        foreach ($genres as $genre) {
-            Genre::create($genre);
+        $genres = Items::fromFile("scripts/data/genres_data.json");
+
+        foreach ($genres as $key => $value) {
+            $exists = Genre::where('igdb_id', $value->id)->exists();
+
+            if ($exists) {
+                continue;
+            }
+
+            Genre::create([
+                'igdb_id' => $value->id,
+                'checksum' => $value->checksum ?? null,
+                'name' => $value->name ?? null,
+                'slug' => $value->slug ?? null,
+                'url' => $value->url ?? null,
+            ]);
         }
     }
 }

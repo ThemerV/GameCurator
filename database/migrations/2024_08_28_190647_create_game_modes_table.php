@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('game_modes', function (Blueprint $table) {
             $table->id();
-            $table->integer('igdb_id');
-            $table->string('name');
-            $table->string('slug');
+            $table->integer('igdb_id')->unique();
+            $table->uuid('checksum')->nullable();
+            $table->string('name')->nullable();
+            $table->string('slug')->unique();
+            $table->string('url')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**

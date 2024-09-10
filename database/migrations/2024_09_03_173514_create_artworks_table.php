@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('artworks', function (Blueprint $table) {
             $table->id();
-            $table->boolean('animated');
-            $table->integer('game_igdb_id');
-            $table->integer('height');
-            $table->integer('image_id');
-            $table->string('url');
-            $table->integer('width');
+            $table->integer('igdb_id')->unique();
+            $table->boolean('animated')->nullable();
+            $table->uuid('checksum')->nullable();
+            $table->integer('game')->nullable();
+            $table->integer('height')->nullable();
+            $table->string('image_id')->nullable();
+            $table->string('url')->nullable();
+            $table->integer('width')->nullable();
             $table->timestamps();
+
+            $table->foreign('game')->references('igdb_id')->on('games');
         });
     }
 

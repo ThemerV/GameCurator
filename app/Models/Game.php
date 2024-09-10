@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\GameCategoryEnum;
+use App\Enums\GameStatusEnum;
 
 class Game extends Model
 {
@@ -44,6 +46,7 @@ class Game extends Model
 
     protected $casts = [
         'artworks' => 'array',
+        'category' => GameCategoryEnum::class,
         'collections' => 'array',
         'dlcs' => 'array',
         'expansions' => 'array',
@@ -60,6 +63,7 @@ class Game extends Model
         'screenshots' => 'array',
         'similar_games' => 'array',
         'standalone_expansions' => 'array',
+        'status' => GameStatusEnum::class,
         'themes' => 'array',
         'videos' => 'array',
         'websites' => 'array',

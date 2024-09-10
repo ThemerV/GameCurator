@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PlatformCategoryEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +26,7 @@ class Platform extends Model
     ];
 
     protected $casts = [
+        'category' => PlatformCategoryEnum::class,
         'websites' => 'array',
     ];
 

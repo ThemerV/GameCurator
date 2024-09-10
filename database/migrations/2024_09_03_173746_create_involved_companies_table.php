@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('involved_companies', function (Blueprint $table) {
             $table->id();
+            $table->integer('igdb_id')->unique();
+            $table->uuid('checksum')->nullable();
+            $table->integer('company')->nullable();
+            $table->boolean('developer')->nullable();
+            $table->integer('game')->nullable();
+            $table->boolean('porting')->nullable();
+            $table->boolean('publisher')->nullable();
+            $table->boolean('supporting')->nullable();
             $table->timestamps();
+
+            $table->foreign('company')->references('igdb_id')->on('companies');
+            $table->foreign('game')->references('igdb_id')->on('games');
         });
+
     }
 
     /**

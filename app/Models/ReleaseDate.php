@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ReleaseDateRegionEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,8 +18,11 @@ class ReleaseDate extends Model
         'platform',
         'release_date',
         'region',
-        'status',
         'y',
+    ];
+
+    protected $casts = [
+        'region' => ReleaseDateRegionEnum::class,
     ];
 
     public function game() {
@@ -31,9 +35,5 @@ class ReleaseDate extends Model
 
     public function region() {
         return $this->hasOne(Region::class);
-    }
-
-    public function status() {
-        return $this->hasOne(ReleaseDateStatus::class);
     }
 }
