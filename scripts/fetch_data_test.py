@@ -4,6 +4,7 @@ import os
 import time
 from dotenv import load_dotenv
 import sys
+from datetime import datetime
 
 # Load .env variables
 load_dotenv()
@@ -54,38 +55,49 @@ def fetch_data(endpoint, fields, max_items):
         url = f'{API_URL}{endpoint}'
         body= f'fields {",".join(fields)}; limit {limit}; offset {offset};'
 
-        response = requests.post(url, data=body, headers=headers)
+        try:
 
-        if response.status_code == 200:
-            game_data = response.json()
-            if not game_data:
-                break
-            all_data.extend(game_data)
-            fetched_count = len(game_data)
-            ###### Testing block ######
-            if total_fetched + fetched_count > max_items:
-                game_data = game_data[:max_items - total_fetched]
-                fetched_count = len(game_data)
+            response = requests.post(url, data=body, headers=headers)
+
+            if response.status_code == 200:
+                game_data = response.json()
+                if not game_data:
+                    break
                 all_data.extend(game_data)
+                fetched_count = len(game_data)
+                ###### Testing block ######
+                if total_fetched + fetched_count > max_items:
+                    game_data = game_data[:max_items - total_fetched]
+                    fetched_count = len(game_data)
+                    all_data.extend(game_data)
+                    total_fetched += fetched_count
+                    print(f"Total {endpoint} fetched = {total_fetched}".ljust(80))
+                    break
+                ###########################
                 total_fetched += fetched_count
+                offset += limit
+                sys.stdout.write(f"{total_fetched} {endpoint} fetched\r")
+                sys.stdout.flush()
+
+            else:
+                error_message = f"Error fetching data: {response.status_code} {response.text}"
+                print(error_message)
+                save_log(endpoint, total_fetched, error_message)
+                break
+
+            ###### Testing block ######
+            if total_fetched >= max_items:
                 break
             ###########################
-            total_fetched += fetched_count
-            offset += limit
-            sys.stdout.write(f"{fetched_count} {endpoint} fetched")
-            sys.stdout.flush()
-            print(f"Total {endpoint} fetched = {total_fetched}".ljust(80))
+            time.sleep(0.25)  # Rate limit
 
-        else:
-            print(f"Error fetching data: {response.status_code} {response.text}")
+        except Exception as e:
+            error_message = str(e)
+            print(f"Exception occurred: {error_message}")
+            save_log(endpoint, total_fetched, error_message)
             break
 
-        ###### Testing block ######
-        if total_fetched >= max_items:
-            break
-        ###########################
-
-        time.sleep(0.25)  # Rate limit
+    print(f"Total {endpoint} fetched = {total_fetched}\n".ljust(80))
 
     return all_data, total_fetched
 
@@ -98,19 +110,25 @@ def save_to_json(data, filename):
         json.dump(data, json_file, indent=4)
 
 # Save logs
-def save_log(endpoint, total_fetched):
+def save_log(endpoint, total_fetched, error_message=None):
     log_file = 'scripts/logs/fetch_log.txt'
 
     # Ensure the directory exists
     os.makedirs('scripts/logs', exist_ok=True)
 
+    # Get the current date and time
+    now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     with open(log_file, 'a') as log:
-        log.write(f"Total {total_fetched} {endpoint} fetched\n")
+        if error_message:
+            log.write(f"[{now}] ERROR: {error_message}")
+        else:
+            log.write(f"[{now}] Total {total_fetched} {endpoint} fetched\n")
 
 def main():
     endpoints = load_endpoints()
 
-    ###### max_items for testing ######
+    ###### Change max_items for the quantity of items that will be fetched to test the script ######
     max_items = 100
     ###################################
 
@@ -133,8 +151,6 @@ def main():
 
         # Save the total fetched count to a log file
         save_log(endpoint, total_fetched)
-
-        print(f"Total {endpoint} fetched = {total_fetched}")
 
 if __name__ == "__main__":
     main()
