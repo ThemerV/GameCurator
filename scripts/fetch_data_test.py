@@ -3,7 +3,7 @@ import json
 import os
 import time
 from dotenv import load_dotenv
-import sys
+import concurrent.futures
 from datetime import datetime
 
 # Load .env variables
@@ -15,18 +15,16 @@ CLIENT_ID = os.getenv("TWITCH_CLIENT_ID")
 CLIENT_SECRET = os.getenv("TWITCH_SECRET")
 AUTH_URL = os.getenv("AUTH_URL")
 
-# Get access_token from IGDB
+# Authenticate and get access token
 def authenticate():
     params = {
-    'client_id': CLIENT_ID,
-    'client_secret': CLIENT_SECRET,
-    'grant_type': 'client_credentials'
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'grant_type': 'client_credentials'
     }
-
     response = requests.post(AUTH_URL, params=params)
     response.raise_for_status()
     auth_data = response.json()
-
     return auth_data['access_token']
 
 auth = authenticate()
@@ -38,119 +36,127 @@ headers = {
     'Accept': 'application/json',
 }
 
-# Read endpoints and fields from JSON file
+# Load endpoints and fields from JSON file
 def load_endpoints():
     with open('scripts/endpoints/endpoints.json') as e:
         return json.load(e)
 
-# Fetch data from the API
-######### max_items for testing #########
+def format_time(seconds):
+    if seconds < 60:
+        return f"{seconds:.2f} seconds"
+    else:
+        minutes = int(seconds // 60)
+        remaining_seconds = seconds % 60
+        return f"{minutes}m{remaining_seconds:.0f}s"
+
 def fetch_data(endpoint, fields, max_items):
     limit = 500
-    offset = 0
     total_fetched = 0
     all_data = []
+    offset = 0
 
-    for i in range(len(fields)):
-        url = f'{API_URL}{endpoint}'
-        body= f'fields {",".join(fields)}; limit {limit}; offset {offset};'
-
-        try:
-
-            response = requests.post(url, data=body, headers=headers)
-
-            if response.status_code == 200:
-                game_data = response.json()
-                if not game_data:
+    # Use ThreadPoolExecutor to make 4 requests concurrently
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+        while total_fetched < max_items:
+            # Prepare up to 4 tasks
+            tasks = []
+            for _ in range(4):
+                if total_fetched >= max_items:
                     break
-                all_data.extend(game_data)
-                fetched_count = len(game_data)
-                ###### Testing block ######
-                if total_fetched + fetched_count > max_items:
-                    game_data = game_data[:max_items - total_fetched]
-                    fetched_count = len(game_data)
-                    all_data.extend(game_data)
-                    total_fetched += fetched_count
-                    print(f"Total {endpoint} fetched = {total_fetched}".ljust(80))
-                    break
-                ###########################
-                total_fetched += fetched_count
+                url = f'{API_URL}{endpoint}'
+                body = f'fields {",".join(fields)}; limit {limit}; offset {offset};'
+                tasks.append(executor.submit(request_data, url, body, headers))
                 offset += limit
-                sys.stdout.write(f"{total_fetched} {endpoint} fetched\r")
-                sys.stdout.flush()
 
-            else:
-                error_message = f"Error fetching data: {response.status_code} {response.text}"
-                print(error_message)
-                save_log(endpoint, total_fetched, error_message)
+            # Flag to check if there’s no data left across all tasks
+            no_more_data = False
+
+            # Collect results from tasks
+            for future in concurrent.futures.as_completed(tasks):
+                try:
+                    data = future.result()
+                    if not data:  # No more data returned from this request
+                        no_more_data = True
+                        continue  # Skip to the next task
+
+                    all_data.extend(data)
+                    fetched_count = len(data)
+                    total_fetched += fetched_count
+                    print(f"{total_fetched} {endpoint} fetched", end="\r")
+
+                    # Stop if max_items reached
+                    if total_fetched >= max_items:
+                        break
+
+                except Exception as e:
+                    print(f"Exception occurred: {str(e)}")
+                    save_log(endpoint, total_fetched, str(e))
+
+            # Check if all tasks returned no data
+            if no_more_data:
                 break
 
-            ###### Testing block ######
-            if total_fetched >= max_items:
-                break
-            ###########################
-            time.sleep(0.25)  # Rate limit
+            time.sleep(1)  # Ensure 1-second interval per batch of 4 requests
 
-        except Exception as e:
-            error_message = str(e)
-            print(f"Exception occurred: {error_message}")
-            save_log(endpoint, total_fetched, error_message)
-            break
-
-    print(f"Total {endpoint} fetched = {total_fetched}\n".ljust(80))
-
+    # Final print statement to show total fetched after loop ends
+    print(f"\nTotal {endpoint} fetched = {total_fetched}")
     return all_data, total_fetched
+
+
+# Make a single request to the API
+def request_data(url, body, headers):
+    response = requests.post(url, data=body, headers=headers)
+    response.raise_for_status()
+    return response.json()
 
 # Save data to JSON file
 def save_to_json(data, filename):
-    # Ensure the directory exists
     os.makedirs('scripts/data', exist_ok=True)
-
     with open(filename, 'w') as json_file:
         json.dump(data, json_file, indent=4)
 
 # Save logs
 def save_log(endpoint, total_fetched, error_message=None):
     log_file = 'scripts/logs/fetch_log.txt'
-
-    # Ensure the directory exists
     os.makedirs('scripts/logs', exist_ok=True)
-
-    # Get the current date and time
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
     with open(log_file, 'a') as log:
         if error_message:
-            log.write(f"[{now}] ERROR: {error_message}")
+            log.write(f"[{now}] ERROR: {error_message}\n")
         else:
             log.write(f"[{now}] Total {total_fetched} {endpoint} fetched\n")
 
 def main():
     endpoints = load_endpoints()
-
-    ###### Change max_items for the quantity of items that will be fetched to test the script ######
-    max_items = 100
-    ###################################
-
-    # Iterate over each endpoint and fetch data
+    max_items = 500  # Adjust this for the amount of data to fetch during testing
+    total_elapsed_start_time = time.time()
     for endpoint_data in endpoints:
         endpoint = endpoint_data['endpoint']
         fields = endpoint_data['fields']
-
         print(f"Fetching {endpoint}...")
 
-        ####### max_items for testing ######
-        games_data, total_fetched = fetch_data(endpoint, fields, max_items)
-        ####################################
+        # Start the timer
+        start_time = time.time()
 
-        global offset
-        offset = 0
+
+        # Fetch the data
+        games_data, total_fetched = fetch_data(endpoint, fields, max_items)
+
+        # End the timer
+        end_time = time.time()
+        elapsed_time = end_time - start_time
 
         # Save the data
         save_to_json(games_data, f'scripts/data/{endpoint}_data.json')
-
-        # Save the total fetched count to a log file
         save_log(endpoint, total_fetched)
 
+        # Print elapsed time for this endpoint
+
+        print(f"Time elapsed for {endpoint}: {format_time(elapsed_time)}\n")
+
+    total_elapsed_end_time = time.time()
+    total_elapsed_time = total_elapsed_end_time - total_elapsed_start_time
+
+    print(f'Total elapsed time: {format_time(total_elapsed_time)}')
 if __name__ == "__main__":
     main()
