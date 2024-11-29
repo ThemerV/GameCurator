@@ -13,7 +13,7 @@ class MultiplayerMode extends Model
         'igdb_id',
         'checksum',
         'dropin',
-        'game',
+        'game_id',
         'lancoop',
         'offlinecoop',
         'offlinecoopmax',
@@ -21,17 +21,17 @@ class MultiplayerMode extends Model
         'onlinecoop',
         'onlinecoopmax',
         'onlinemax',
-        'platform',
+        'platform_id',
         'splitscreen',
         'splitscreenonline',
     ];
 
     public function game() {
-        return $this->belongsTo(Game::class);
+        return $this->belongsToMany(Game::class, 'game_multiplayer_mode', 'multiplayer_mode_igdb_id', 'game_igdb_id', 'igdb_id', 'igdb_id');
     }
 
     public function platform() {
-        return $this->belongsTo(Platform::class);
+        return $this->hasMany(Platform::class);
     }
 
 }

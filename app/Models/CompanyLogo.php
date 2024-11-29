@@ -11,12 +11,8 @@ class CompanyLogo extends Model
 
     protected $fillable = [
         'igdb_id',
-        'animated',
         'checksum',
-        'height',
-        'image_id',
         'url',
-        'width',
     ];
 
     public function company() {

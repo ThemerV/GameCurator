@@ -14,11 +14,11 @@ class Theme extends Model
         'checksum',
         'name',
         'slug',
-        'url',
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
+    public function games()
+    {
+        return Game::whereJsonContains('themes_array', $this->igdb_id);
     }
 
 }

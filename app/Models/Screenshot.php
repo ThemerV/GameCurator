@@ -11,17 +11,13 @@ class Screenshot extends Model
 
     protected $fillable = [
         'igdb_id',
-        'animated',
         'checksum',
-        'game',
-        'height',
-        'image_id',
+        'game_id',
         'url',
-        'width',
     ];
 
     public function game() {
-        return $this->belongsTo(Game::class);
+        return $this->belongsToMany(Game::class, 'game_screenshot', 'screenshot_igdb_id', 'game_igdb_id', 'igdb_id', 'igdb_id');
     }
 
 }

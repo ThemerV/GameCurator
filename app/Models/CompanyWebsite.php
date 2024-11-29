@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CompanyWebsiteEnum;
+use App\Enums\CompanyWebsiteCategoryEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,12 +14,11 @@ class CompanyWebsite extends Model
         'igdb_id',
         'category',
         'checksum',
-        'trusted',
         'url',
     ];
 
     protected $casts = [
-        'category' => CompanyWebsiteEnum::class,
+        'category' => CompanyWebsiteCategoryEnum::class,
     ];
 
     public function company() {

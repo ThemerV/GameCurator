@@ -12,20 +12,21 @@ class InvolvedCompany extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'company',
+        'company_id',
         'developer',
-        'game',
+        'game_id',
         'porting',
         'publisher',
         'supporting',
     ];
 
-    public function game() {
-        return $this->belongsTo(Game::class);
-    }
-
     public function company() {
         return $this->belongsTo(Company::class);
+    }
+
+    public function game()
+    {
+        return Game::whereJsonContains('involved_companies_array', $this->igdb_id);
     }
 
 }

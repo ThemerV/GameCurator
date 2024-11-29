@@ -15,7 +15,7 @@ class LanguageSupportType extends Model
         'name',
     ];
 
-    public function languageSupport() {
-        return $this->HasMany(LanguageSupport::class);
+    public function languageSupports() {
+        return $this->hasMany(LanguageSupport::class);
     }
 }

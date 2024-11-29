@@ -12,20 +12,20 @@ class LanguageSupport extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'game',
-        'language',
-        'language_support_type',
+        'game_id',
+        'language_id',
+        'language_support_type_id',
     ];
 
     public function game() {
-        return $this->belongsTo(Game::class);
+        return $this->belongsToMany(Game::class, 'language_support_game', 'language_support_igdb_id', 'game_igdb_id', 'igdb_id', 'igdb_id');
     }
 
     public function language() {
-        return $this->hasMany(Language::class);
+        return $this->belongsTo(Language::class);
     }
 
     public function languageSupportType() {
-        return $this->hasOne(LanguageSupportType::class);
+        return $this->belongsTo(LanguageSupportType::class, 'game_id', 'igdb_id');
     }
 }

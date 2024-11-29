@@ -22,8 +22,4 @@ class PlatformWebsite extends Model
         'category' => PlatformWebsiteCategoryEnum::class,
     ];
 
-    public function platform() {
-        return $this->belongsTo(Platform::class);
-    }
-
 }

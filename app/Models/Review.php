@@ -11,13 +11,16 @@ class Review extends Model
 
     protected $fillable = [
         'game_igdb_id',
-        'title',
         'rating',
-        'review',
-        'likes',
+        'comment',
+        'user_id',
     ];
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function game() {
+        return $this->belongsTo(Game::class, 'game_igdb_id', 'igdb_id');
     }
 }

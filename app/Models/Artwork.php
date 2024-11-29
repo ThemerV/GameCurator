@@ -11,17 +11,14 @@ class Artwork extends Model
 
     protected $fillable = [
         'igdb_id',
-        'animated',
+        'game_id',
         'checksum',
-        'game',
-        'height',
-        'image_id',
         'url',
-        'width',
     ];
 
-    public function game() {
-        return $this->belongsTo(Game::class);
+    public function game()
+    {
+        return Game::whereJsonContains('artworks_array', $this->igdb_id);
     }
 
 }

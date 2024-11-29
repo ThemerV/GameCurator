@@ -14,11 +14,13 @@ class GameMode extends Model
         'checksum',
         'name',
         'slug',
-        'url',
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
+    public function games()
+    {
+        // Query Game records where the `game_modes_array` JSON contains this GameMode's `igdb_id`
+        return Game::whereJsonContains('game_modes_array', $this->igdb_id)->get();
     }
+
 
 }

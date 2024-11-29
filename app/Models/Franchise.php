@@ -12,17 +12,20 @@ class Franchise extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'cover',
-        'game',
+        'games_array',
         'name',
-        'region',
+        'slug',
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
+    protected $casts = [
+        'games_array' => 'array'
+    ];
+
+    public function games()
+    {
+        return $this->belongsToMany(Game::class, 'franchise_game',
+            'franchise_igdb_id', 'game_igdb_id',
+            'igdb_id', 'igdb_id');
     }
 
-    public function cover() {
-        return $this->hasOne(Cover::class);
-    }
 }

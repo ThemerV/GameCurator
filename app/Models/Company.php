@@ -12,32 +12,35 @@ class Company extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'country',
         'description',
         'developed',
         'logo',
         'name',
-        'parent',
         'published',
         'slug',
-        'url',
-        'websites',
+        'websites_array',
     ];
 
     protected $casts = [
-        'websites' => 'array',
+        'developed' => 'array',
+        'published' => 'array',
+        'websites_array' => 'array',
     ];
 
     public function developed() {
         return $this->hasMany(Game::class);
     }
 
-    public function published() {
-        return $this->hasMany(Game::class);
+    public function	involvedCompanies() {
+        return $this->hasMany(InvolvedCompany::class);
     }
 
-    public function parent() {
-        return $this->belongsTo(Company::class, 'parent');
+    public function logo() {
+        return $this->hasOne(CompanyLogo::class);
+    }
+
+    public function published() {
+        return $this->hasMany(Game::class);
     }
 
     public function websites() {

@@ -12,13 +12,13 @@ class GameVideo extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'game',
+        'game_id',
         'name',
         'video_id',
     ];
 
     public function game() {
-        return $this->belongsTo(Game::class);
+        return $this->belongsToMany(Game::class, 'game_game_video', 'video_igdb_id', 'game_igdb_id', 'igdb_id', 'igdb_id');
     }
 
 }

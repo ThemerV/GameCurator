@@ -11,12 +11,8 @@ class PlatformLogo extends Model
 
     protected $fillable = [
         "id",
-        "animated",
         "checksum",
-        "height",
-        "image_id",
         "url",
-        "width"
     ];
 
     public function platform() {

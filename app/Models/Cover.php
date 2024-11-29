@@ -12,21 +12,10 @@ class Cover extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'animated',
-        'game',
-        'game_localization',
-        'height',
-        'image_id',
         'url',
-        'width',
     ];
 
     public function game() {
-        return $this->belongsTo(Game::class);
+        return $this->belongsTo(Game::class, 'cover_id', 'igdb_id');
     }
-
-    public function gameLocalization() {
-        return $this->belongsTo(GameLocalization::class);
-    }
-
 }

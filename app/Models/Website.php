@@ -23,7 +23,7 @@ class Website extends Model
     ];
 
     public function game() {
-        return $this->belongsTo(Game::class);
+        return $this->whereJsonContains('websites_array', $this->igdb_id);
     }
 
 }

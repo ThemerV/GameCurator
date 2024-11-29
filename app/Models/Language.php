@@ -12,13 +12,12 @@ class Language extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'locale',
         'name',
         'native_name',
     ];
 
     public function languageSupport() {
-        return $this->belongsTo(LanguageSupport::class);
+        return $this->hasMany(LanguageSupport::class);
     }
 
 

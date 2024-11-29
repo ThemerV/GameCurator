@@ -12,17 +12,18 @@ class Playlist extends Model
     protected $fillable = [
         'name',
         'user_id',
-        'games_array',
         'description'
-    ];
-
-    protected $casts = [
-        'games_array' => 'array',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function games()
+    {
+        return $this->belongsToMany(Game::class, 'playlist_game', 'playlist_id', 'game_igdb_id', 'id', 'igdb_id')
+                    ->withTimestamps();
     }
 
 }

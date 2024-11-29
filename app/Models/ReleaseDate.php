@@ -13,10 +13,10 @@ class ReleaseDate extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'game',
+        'date',
+        'game_id',
         'human',
-        'platform',
-        'release_date',
+        'platform_id',
         'region',
         'y',
     ];
@@ -26,14 +26,11 @@ class ReleaseDate extends Model
     ];
 
     public function game() {
-        return $this->belongsTo(Game::class);
+        return $this->belongsToMany(Game::class, 'game_release_date', 'release_date_igdb_id', 'game_igdb_id', 'igdb_id', 'igdb_id');
     }
 
     public function platform() {
         return $this->belongsTo(Platform::class);
     }
 
-    public function region() {
-        return $this->hasOne(Region::class);
-    }
 }

@@ -12,18 +12,18 @@ class Collection extends Model
     protected $fillable = [
         'igdb_id',
         'checksum',
-        'games',
+        'games_array',
         'name',
         'slug',
-        'url',
     ];
 
     protected $casts = [
-        'games' => 'array',
+        'games_array' => 'array',
     ];
 
-    public function games() {
-        return $this->hasMany(Game::class);
+    public function games()
+    {
+        return $this->belongsToMany(Game::class, 'collection_game', 'collection_igdb_id', 'game_igdb_id', 'igdb_id', 'igdb_id');
     }
 
 }

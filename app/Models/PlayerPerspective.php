@@ -14,11 +14,10 @@ class PlayerPerspective extends Model
         'checksum',
         'name',
         'slug',
-        'url',
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
+    public function games()
+    {
+        return Game::whereJsonContains('player_perspectives_array', $this->igdb_id);
     }
-
 }

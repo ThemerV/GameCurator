@@ -17,21 +17,21 @@ class Platform extends Model
         'checksum',
         'generation',
         'name',
-        'platform_family',
-        'platform_logo',
+        'platform_family_id',
+        'platform_logo_id',
         'slug',
         'summary',
-        'url',
-        'websites',
+        'websites_array',
     ];
 
     protected $casts = [
         'category' => PlatformCategoryEnum::class,
-        'websites' => 'array',
+        'websites_array' => 'array',
     ];
 
-    public function games() {
-        return $this->belongsToMany(Game::class);
+    public function games()
+    {
+        return Game::whereJsonContains('platforms_array', $this->igdb_id);
     }
 
     public function family() {
@@ -42,8 +42,11 @@ class Platform extends Model
         return $this->hasOne(PlatformLogo::class);
     }
 
+    public function releaseDates() {
+        return $this->hasMany(ReleaseDate::class);
+    }
+
     public function websites() {
         return $this->hasMany(PlatformWebsite::class);
     }
-
 }
