@@ -11,15 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('game_modes', function (Blueprint $table) {
-            $table->id();
-            $table->integer('igdb_id')->unique();
-            $table->uuid('checksum')->nullable();
-            $table->string('name')->nullable();
-            $table->string('slug')->unique();
+        Schema::create('company_game', function (Blueprint $table) {
             $table->timestamps();
         });
-
     }
 
     /**
@@ -27,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('game_modes');
+        //
     }
 };

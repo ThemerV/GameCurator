@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->json('games_array')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

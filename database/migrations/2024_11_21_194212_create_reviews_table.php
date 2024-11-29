@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->integer('rating');
-            $table->text('review');
-            $table->bigInteger('game_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->integer('game_igdb_id');
+            $table->integer('rating')->unsigned();
+            $table->text('comment')->nullable();
             $table->timestamps();
+
+            $table->foreign('game_igdb_id')->references('igdb_id')->on('games')->onDelete('cascade');
         });
+
     }
 
     /**

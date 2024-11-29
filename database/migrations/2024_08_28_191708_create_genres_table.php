@@ -17,7 +17,6 @@ return new class extends Migration
             $table->uuid('checksum')->nullable();
             $table->string('name')->nullable();
             $table->string('slug')->unique();
-            $table->string('url')->nullable();
             $table->timestamps();
         });
 

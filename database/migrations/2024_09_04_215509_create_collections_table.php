@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
-            $table->json('games')->nullable();
+            $table->json('games_array')->nullable();
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
-            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

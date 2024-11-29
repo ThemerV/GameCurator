@@ -20,16 +20,13 @@ return new class extends Migration
             $table->uuid('checksum')->nullable();
             $table->integer('generation')->nullable();
             $table->string('name')->nullable();
-            $table->integer('platform_family')->nullable();
-            $table->integer('platform_logo')->nullable();
+            $table->integer('platform_family_id')->nullable();
+            $table->integer('platform_logo_id')->nullable();
             $table->string('slug')->unique();
             $table->text('summary')->nullable();
             $table->string('url')->nullable();
-            $table->json('websites')->nullable();
+            $table->json('websites_array')->nullable();
             $table->timestamps();
-
-            $table->foreign('platform_family')->references('igdb_id')->on('platform_families');
-            $table->foreign('platform_logo')->references('igdb_id')->on('platform_logos');
         });
 
     }

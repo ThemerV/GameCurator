@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
-            $table->string('locale')->nullable();
             $table->string('name')->nullable();
             $table->string('native_name')->nullable();
             $table->timestamps();

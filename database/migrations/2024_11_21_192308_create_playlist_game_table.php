@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regions', function (Blueprint $table) {
+        Schema::create('playlist_game', function (Blueprint $table) {
             $table->id();
-            $table->integer('igdb_id')->unique();
-            $table->integer('category')->nullable();
-            $table->uuid('checksum')->nullable();
-            $table->string('identifier')->nullable();
-            $table->string('name')->nullable();
+            $table->foreignId('playlist_id')->constrained()->onDelete('cascade');
+            $table->integer('game_igdb_id')->index();
             $table->timestamps();
+
+            $table->foreign('game_igdb_id')->references('igdb_id')->on('games')->onDelete('cascade');
         });
 
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('regions');
+        Schema::dropIfExists('playlist_game');
     }
 };

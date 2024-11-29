@@ -15,16 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
-            $table->integer('company')->nullable();
+            $table->integer('company_id')->nullable();
             $table->boolean('developer')->nullable();
-            $table->integer('game')->nullable();
+            $table->integer('game_id')->nullable();
             $table->boolean('porting')->nullable();
             $table->boolean('publisher')->nullable();
             $table->boolean('supporting')->nullable();
             $table->timestamps();
-
-            $table->foreign('company')->references('igdb_id')->on('companies');
-            $table->foreign('game')->references('igdb_id')->on('games');
         });
 
     }

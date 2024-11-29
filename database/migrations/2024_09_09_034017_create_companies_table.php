@@ -15,20 +15,14 @@ return new class extends Migration
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
-            $table->integer('country')->nullable();
             $table->text('description')->nullable();
             $table->json('developed')->nullable();
-            $table->integer('logo')->nullable();
+            $table->integer('logo_id')->nullable();
             $table->string('name')->nullable();
-            $table->integer('parent')->nullable();
             $table->json('published')->nullable();
             $table->string('slug')->unique();
-            $table->string('url')->nullable();
-            $table->json('websites')->nullable();
+            $table->json('websites_array')->nullable();
             $table->timestamps();
-
-            $table->foreign('logo')->references('igdb_id')->on('company_logos');
-            $table->foreign('parent')->references('igdb_id')->on('companies');
         });
 
     }

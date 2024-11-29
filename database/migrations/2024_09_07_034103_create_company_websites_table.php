@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('igdb_id')->unique();
             $table->integer('category')->nullable();
             $table->uuid('checksum')->nullable();
-            $table->boolean('trusted')->nullable();
             $table->string('url')->nullable();
             $table->timestamps();
         });

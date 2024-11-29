@@ -15,12 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
-            $table->integer('game')->nullable();
             $table->string('name')->nullable();
             $table->string('video_id')->nullable();
             $table->timestamps();
-
-            $table->foreign('game')->references('igdb_id')->on('games');
         });
 
     }

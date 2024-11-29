@@ -15,14 +15,10 @@ return new class extends Migration
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
-            $table->integer('game')->nullable();
-            $table->integer('language')->nullable();
-            $table->integer('language_support_type')->nullable();
+            $table->integer('game_id')->nullable();
+            $table->integer('language_id')->nullable();
+            $table->integer('language_support_type_id')->nullable();
             $table->timestamps();
-
-            $table->foreign('game')->references('igdb_id')->on('games');
-            $table->foreign('language')->references('igdb_id')->on('languages');
-            $table->foreign('language_support_type')->references('igdb_id')->on('language_support_types');
         });
 
     }

@@ -14,12 +14,8 @@ return new class extends Migration
         Schema::create('platform_logos', function (Blueprint $table) {
             $table->id();
             $table->integer('igdb_id')->unique();
-            $table->boolean('animated')->nullable();
             $table->uuid('checksum')->nullable();
-            $table->integer('height')->nullable();
-            $table->string('image_id')->nullable();
             $table->string('url')->nullable();
-            $table->integer('width')->nullable();
             $table->timestamps();
         });
 

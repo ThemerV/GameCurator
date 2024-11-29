@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('game_localizations', function (Blueprint $table) {
+        Schema::create('release_dates', function (Blueprint $table) {
             $table->id();
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
-            $table->integer('cover')->nullable();
-            $table->integer('game')->nullable();
-            $table->string('name')->nullable();
+            $table->integer('category')->nullable();
+            $table->integer('date')->nullable();
+            $table->integer('game_id')->nullable();
+            $table->string('human')->nullable();
+            $table->integer('m')->nullable();
+            $table->integer('platform_id')->nullable();
             $table->integer('region')->nullable();
+            $table->integer('y')->nullable();
             $table->timestamps();
-
-            $table->foreign('cover')->references('igdb_id')->on('covers');
-            $table->foreign('game')->references('igdb_id')->on('games');
-            $table->foreign('region')->references('igdb_id')->on('regions');
         });
 
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('game_localizations');
+        Schema::dropIfExists('release_dates');
     }
 };

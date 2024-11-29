@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('igdb_id')->unique();
             $table->uuid('checksum')->nullable();
             $table->boolean('dropin')->nullable();
-            $table->integer('game')->nullable();
+            $table->integer('game_id')->nullable();
             $table->boolean('lancoop')->nullable();
             $table->boolean('offlinecoop')->nullable();
             $table->integer('offlinecoopmax')->nullable();
@@ -24,13 +24,10 @@ return new class extends Migration
             $table->boolean('onlinecoop')->nullable();
             $table->integer('onlinecoopmax')->nullable();
             $table->integer('onlinemax')->nullable();
-            $table->integer('platform')->nullable();
+            $table->integer('platform_id')->nullable();
             $table->boolean('splitscreen')->nullable();
             $table->boolean('splitscreenonline')->nullable();
             $table->timestamps();
-
-            $table->foreign('game')->references('igdb_id')->on('games');
-            $table->foreign('platform')->references('igdb_id')->on('platforms');
         });
 
     }
