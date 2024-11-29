@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Game;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use JsonMachine\Items;
 class GameSeeder extends Seeder
 {
@@ -23,37 +24,40 @@ class GameSeeder extends Seeder
                 continue;
             }
 
+            if (isset($value->first_release_date) && $value->first_release_date < 0) {
+                $value->first_release_date *= -1;
+                continue;
+            }
+
             Game::create([
                 'igdb_id' => $value->id,
-                'artworks' => $value->artworks ?? null,
+                'artworks_array' => $value->artworks ?? null,
                 'category' => $value->category ?? null,
                 'checksum' => $value->checksum ?? null,
-                'collections' => $value->collections ?? null,
-                'cover' => $value->cover ?? null,
-                'dlcs' => $value->dlcs ?? null,
-                'expansions' => $value->expansions ?? null,
+                'collections_array' => $value->collections ?? null,
+                'cover_id' => $value->cover ?? null,
+                'dlcs_array' => $value->dlcs ?? null,
+                'expansions_array' => $value->expansions ?? null,
                 'first_release_date' => $value->first_release_date ?? null,
-                'franchises' => $value->franchises ?? null,
-                'game_localizations' => $value->game_localizations ?? null,
-                'game_modes' => $value->game_modes ?? null,
-                'genres' => $value->genres ?? null,
-                'involved_companies' => $value->involved_companies ?? null,
-                'language_supports' => $value->language_supports ?? null,
-                'multiplayer_modes' => $value->multiplayer_modes ?? null,
+                'franchises_array' => $value->franchises ?? null,
+                'game_modes_array' => $value->game_modes ?? null,
+                'genres_array' => $value->genres ?? null,
+                'involved_companies_array' => $value->involved_companies ?? null,
+                'language_supports_array' => $value->language_supports ?? null,
+                'multiplayer_modes_array' => $value->multiplayer_modes ?? null,
                 'name' => $value->name ?? null,
-                'parent_game' => $value->parent_game ?? null,
-                'platforms' => $value->platforms ?? null,
-                'player_perspectives' => $value->player_perspectives ?? null,
-                'release_dates' => $value->release_dates ?? null,
-                'screenshots' => $value->screenshots ?? null,
-                'similar_games' => $value->similar_games ?? null,
+                'parent_game_id' => $value->parent_game ?? null,
+                'platforms_array' => $value->platforms ?? null,
+                'player_perspectives_array' => $value->player_perspectives ?? null,
+                'release_dates_array' => $value->release_dates ?? null,
+                'screenshots_array' => $value->screenshots ?? null,
+                'similar_games_array' => $value->similar_games ?? null,
                 'slug' => $value->slug ?? null,
                 'storyline' => $value->storyline ?? null,
                 'summary' => $value->summary ?? null,
-                'themes' => $value->themes ?? null,
-                'url' => $value->url ?? null,
-                'videos' => $value->videos ?? null,
-                'websites' => $value->websites ?? null
+                'themes_array' => $value->themes ?? null,
+                'videos_array' => $value->videos ?? null,
+                'websites_array' => $value->websites ?? null
             ]);
         }
     }

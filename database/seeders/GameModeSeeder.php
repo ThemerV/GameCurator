@@ -26,7 +26,6 @@ class GameModeSeeder extends Seeder
                 'checksum' => $value->checksum ?? null,
                 'name' => $value->name ?? null,
                 'slug' => $value->slug ?? null,
-                'url' => $value->url ?? null,
             ]);
         }
     }

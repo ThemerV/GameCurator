@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\LanguageSupportType;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         $this->call([
             ArtworkSeeder::class,
             CollectionSeeder::class,
@@ -28,9 +30,8 @@ class DatabaseSeeder extends Seeder
             CompanyWebsiteSeeder::class,
             CoverSeeder::class,
             FranchiseSeeder::class,
-            GameLocalizationSeeder::class,
-            GameModeSeeder::class,
             GameSeeder::class,
+            GameModeSeeder::class,
             GameVideoSeeder::class,
             GenreSeeder::class,
             InvolvedCompanySeeder::class,
@@ -43,11 +44,12 @@ class DatabaseSeeder extends Seeder
             PlatformSeeder::class,
             PlatformWebsiteSeeder::class,
             PlayerPerspectiveSeeder::class,
-            RegionSeeder::class,
             ReleaseDateSeeder::class,
             ScreenshotSeeder::class,
             ThemeSeeder::class,
             WebsiteSeeder::class,
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

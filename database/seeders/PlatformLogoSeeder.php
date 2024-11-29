@@ -23,12 +23,8 @@ class PlatformLogoSeeder extends Seeder
 
             PlatformLogo::create([
                 'igdb_id' => $value->id,
-                'animated' => $value->animated ?? null,
                 'checksum' => $value->checksum ?? null,
-                'height' => $value->height ?? null,
-                'image_id' => $value->image_id ?? null,
                 'url' => $value->url ?? null,
-                'width' => $value->width ?? null,
             ]);
         }
     }

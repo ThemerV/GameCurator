@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\LanguageSupportType;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use JsonMachine\Items;
 
 class LanguageSupportTypeSeeder extends Seeder

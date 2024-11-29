@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\MultiplayerMode;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use JsonMachine\Items;
 
 class MultiplayerModeSeeder extends Seeder
@@ -25,7 +26,7 @@ class MultiplayerModeSeeder extends Seeder
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
                 'dropin' => $value->dropin ?? null,
-                'game' => $value->game ?? null,
+                'game_id' => $value->game ?? null,
                 'lancoop' => $value->lancoop ?? null,
                 'offlinecoop' => $value->offlinecoop ?? null,
                 'offlinecoopmax' => $value->offlinecoopmax ?? null,
@@ -33,7 +34,7 @@ class MultiplayerModeSeeder extends Seeder
                 'onlinecoop' => $value->onlinecoop ?? null,
                 'onlinecoopmax' => $value->onlinecoopmax ?? null,
                 'onlinemax' => $value->onlinemax ?? null,
-                'platform' => $value->platform ?? null,
+                'platform_id' => $value->platform ?? null,
                 'splitscreen' => $value->splitscreen ?? null,
                 'splitscreenonline' => $value->splitscreenonline ?? null,
             ]);

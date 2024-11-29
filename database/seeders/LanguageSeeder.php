@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Language;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use JsonMachine\Items;
 
 class LanguageSeeder extends Seeder
@@ -24,7 +25,6 @@ class LanguageSeeder extends Seeder
             Language::create([
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
-                'locale' => $value->locale ?? null,
                 'name' => $value->name ?? null,
                 'native_name' => $value->native_name ?? null,
             ]);

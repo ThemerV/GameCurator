@@ -28,12 +28,12 @@ class PlatformSeeder extends Seeder
                 'checksum' => $value->checksum ?? null,
                 'generation' => $value->generation ?? null,
                 'name' => $value->name ?? null,
-                'platform_family' => $value->platform_family ?? null,
-                'platform_logo' => $value->platform_logo ?? null,
+                'platform_family_id' => $value->platform_family ?? null,
+                'platform_logo_id' => $value->platform_logo ?? null,
                 'slug' => $value->slug ?? null,
                 'summary' => $value->summary ?? null,
                 'url' => $value->url ?? null,
-                'websites' => $value->websites ?? null,
+                'websites_array' => $value->websites ?? null,
             ]);
         }
     }

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\InvolvedCompany;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use JsonMachine\Items;
 
 class InvolvedCompanySeeder extends Seeder
@@ -24,13 +25,14 @@ class InvolvedCompanySeeder extends Seeder
             InvolvedCompany::create([
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
-                'company' => $value->company ?? null,
+                'company_id' => $value->company ?? null,
                 'developer' => $value->developer ?? null,
-                'game' => $value->game ?? null,
+                'game_id' => $value->game ?? null,
                 'porting' => $value->porting ?? null,
                 'publisher' => $value->publisher ?? null,
                 'supporting' => $value->supporting ?? null,
             ]);
         }
+
     }
 }

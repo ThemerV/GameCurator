@@ -25,7 +25,7 @@ class ReleaseDateSeeder extends Seeder
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
                 'date' => $value->date ?? null,
-                'game' => $value->game ?? null,
+                'game_id' => $value->game ?? null,
                 'region' => $value->region ?? null,
                 'human' => $value->human ?? null,
             ]);

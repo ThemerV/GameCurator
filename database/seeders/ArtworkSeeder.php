@@ -23,13 +23,9 @@ class ArtworkSeeder extends Seeder
 
             Artwork::create([
                 'igdb_id' => $value->id,
-                'animated' => $value->animated ?? null,
                 'checksum' => $value->checksum ?? null,
-                'game' => $value->game ?? null,
-                'height' => $value->height ?? null,
-                'image_id' => $value->image_id ?? null,
+                'game_id' => $value->game ?? null,
                 'url' => $value->url ?? null,
-                'width' => $value->width ?? null,
             ]);
         }
     }

@@ -24,7 +24,7 @@ class GameVideoSeeder extends Seeder
             GameVideo::create([
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
-                'game' => $value->game ?? null,
+                'game_id' => $value->game ?? null,
                 'name' => $value->name ?? null,
                 'video_id' => $value->video_id ?? null,
             ]);

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Collection;
+use App\Models\Game;
 use Illuminate\Database\Seeder;
 use JsonMachine\Items;
 
@@ -24,10 +25,9 @@ class CollectionSeeder extends Seeder
             Collection::create([
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
-                'games' => $value->games ?? null,
+                'games_array' => $value->games ?? null,
                 'name' => $value->name ?? null,
                 'slug' => $value->slug ?? null,
-                'url' => $value->url ?? null,
             ]);
         }
     }

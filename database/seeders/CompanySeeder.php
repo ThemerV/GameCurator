@@ -24,16 +24,13 @@ class CompanySeeder extends Seeder
             Company::create([
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
-                'country' => $value->country ?? null,
                 'description' => $value->description ?? null,
                 'developed' => $value->developed ?? null,
-                'logo' => $value->logo ?? null,
+                'logo_id' => $value->logo ?? null,
                 'name' => $value->name ?? null,
-                'parent' => $value->parent ?? null,
                 'published' => $value->published ?? null,
                 'slug' => $value->slug ?? null,
-                'url' => $value->url ?? null,
-                'websites' => $value->websites ?? null,
+                'websites_array' => $value->websites ?? null,
             ]);
         }
     }

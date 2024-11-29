@@ -24,13 +24,7 @@ class CoverSeeder extends Seeder
             Cover::create([
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
-                'animated' => $value->animated ?? null,
-                'game' => $value->game ?? null,
-                'game_localization' => $value->game_localization ?? null,
-                'height' => $value->height ?? null,
-                'image_id' => $value->image_id ?? null,
                 'url' => $value->url ?? null,
-                'width' => $value->width ?? null,
             ]);
         }
     }

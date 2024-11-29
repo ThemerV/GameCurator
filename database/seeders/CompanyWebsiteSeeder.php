@@ -25,7 +25,6 @@ class CompanyWebsiteSeeder extends Seeder
                 'igdb_id' => $value->id,
                 'category' => $value->category ?? null,
                 'checksum' => $value->checksum ?? null,
-                'trusted' => $value->trusted ?? null,
                 'url' => $value->url ?? null,
             ]);
         }

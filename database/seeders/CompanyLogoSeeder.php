@@ -15,20 +15,16 @@ class CompanyLogoSeeder extends Seeder
         $companyLogos = Items::fromFile("scripts/data/company_logos_data.json");
 
         foreach ($companyLogos as $key => $value) {
-            $exists = CompanyLogo::where('igdb_id', $value->id)->exists();
+            // $exists = CompanyLogo::where('igdb_id', $value->id)->exists();
 
-            if ($exists) {
-                continue;
-            }
+            // if ($exists) {
+            //     continue;
+            // }
 
-            CompanyLogo::create([
+            CompanyLogo::updateOrCreate([
                 'igdb_id' => $value->id,
-                'animated' => $value->animated ?? null,
                 'checksum' => $value->checksum ?? null,
-                'height' => $value->height ?? null,
-                'image_id' => $value->image_id ?? null,
                 'url' => $value->url ?? null,
-                'width' => $value->width ?? null,
             ]);
         }
     }

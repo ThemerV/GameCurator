@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\LanguageSupport;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use JsonMachine\Items;
 
 class LanguageSupportSeeder extends Seeder
@@ -24,10 +25,11 @@ class LanguageSupportSeeder extends Seeder
             LanguageSupport::create([
                 'igdb_id' => $value->id,
                 'checksum' => $value->checksum ?? null,
-                'game' => $value->game ?? null,
-                'language' => $value->language ?? null,
-                'language_support_type' => $value->language_support_type ?? null,
+                'game_id' => $value->game ?? null,
+                'language_id' => $value->language ?? null,
+                'language_support_type_id' => $value->language_support_type ?? null,
             ]);
-        }
+
+        };
     }
 }
