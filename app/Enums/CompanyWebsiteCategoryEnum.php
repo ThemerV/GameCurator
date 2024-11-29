@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum CompanyWebsiteEnum: int
+enum CompanyWebsiteCategoryEnum: int
 {
     case oficial = 1;
     case wikia = 2;
