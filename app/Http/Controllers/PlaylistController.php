@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Playlist;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -24,36 +23,36 @@ class PlaylistController extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Playlist $playlist)
     {
-        try {
-            $playlist = Playlist::findOrFail($id);
-            return response()->json($playlist, 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Playlist not found'], 404);
-        } catch (Exception $e) {
-            Log::error('Error fetching playlist: ' . $e->getMessage());
-            return response()->json(['error' => 'Unable to fetch playlist'], 500);
-        }
+        return response()->json($playlist->games, 200);
     }
 
     public function store(Request $request)
     {
         try {
+                // Validate the incoming request
             $data = $request->validate([
-                'name' => 'required|string|max:32',
-                'description' => 'nullable|string|max:255',
-                'games_array' => 'nullable|array',
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'games' => 'nullable|array',
+                'games.*' => 'integer|exists:games,igdb_id', // Validate each game ID
             ]);
 
-            $user = $request->user();
-
+            // Create the playlist
             $playlist = Playlist::create([
-                'user_id' => $user->id,
                 'name' => $data['name'],
-                'games_array' =>  $data['games_array'],
-                'description' => $data['description'],
+                'description' => $data['description'] ?? null,
+                'user_id' => Auth::id(),
             ]);
+
+            // Attach games if provided
+            if (!empty($data['games'])) {
+                $playlist->games()->attach($data['games']);
+            }
+
+            // Return the created playlist with the games
+            $playlist->load('games'); // Eager load games to include them in the response
 
             return response()->json($playlist, 201);
         } catch (Exception $e) {
@@ -98,12 +97,13 @@ class PlaylistController extends Controller
             $data = $request->validate([
                 'game_id' => 'required|integer|exists:games,igdb_id',
             ]);
-
+            $playlist->games()->attach($data['game_igdb_id']);
             $games = $playlist->games_array ?? [];
 
             if (in_array($data['game_id'], $games)) {
                 return response()->json(['message' => 'Game already in playlist'], 400);
             }
+
             $games[] = $data['game_id'];
             $playlist->games_array = $games;
             $playlist->save();
@@ -131,6 +131,8 @@ class PlaylistController extends Controller
             $data = $request->validate([
                 'game_id' => 'required|exists:games,igdb_id',
             ]);
+
+            $playlist->games()->detach($data['game_igdb_id']);
 
             $games = $playlist->games_array ?? [];
             if (!in_array($data['game_id'], $games)) {
@@ -164,5 +166,11 @@ class PlaylistController extends Controller
         $playlist->delete();
 
         return response()->json(['message' => 'Playlist deleted successfully'], 200);
+    }
+
+    public function getUserPlaylists(Request $request)
+    {
+        $user = $request->user();
+        return response()->json($user->playlists, 200);
     }
 }
