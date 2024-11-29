@@ -1,72 +1,64 @@
 [
     {
-        "endpoint": "games",
-        "fields": [
-            "id", "artworks", "category", "checksum", "collections", "cover", "dlcs", "expansions", "franchises", "first_release_date",
-            "game_localizations", "game_modes", "genres", "involved_companies", "language_supports", "multiplayer_modes",
-            "name", "parent_game", "platforms", "player_perspectives", "release_dates", "screenshots", "similar_games",
-            "slug", "standalone_expansions", "status", "storyline", "summary", "themes", "url", "videos", "websites"
-        ]
-    },
-    {
         "endpoint": "artworks",
-        "fields": ["id", "animated", "checksum", "game", "height", "image_id", "url", "width"]
+        "fields": ["id", "checksum", "game", "url"]
     },
     {
         "endpoint": "collections",
-        "fields": ["id", "checksum", "games", "name", "slug", "url"]
+        "fields": ["id", "checksum", "games", "name", "slug"]
+    },
+    {
+        "endpoint": "companies",
+        "fields": ["id", "checksum", "description", "developed", "logo", "name", "published", "slug", "websites"]
+    },
+    {
+        "endpoint": "company_logos",
+        "fields": ["id", "checksum", "url"]
+    },
+    {
+        "endpoint": "company_websites",
+        "fields": ["id", "category", "checksum", "url"]
     },
     {
         "endpoint": "covers",
-        "fields": ["id", "checksum", "animated", "game", "game_localization", "height", "image_id", "url", "width"]
+        "fields": ["id", "checksum", "url"]
     },
     {
         "endpoint": "franchises",
-        "fields": ["id", "checksum", "games", "name", "slug", "url"]
+        "fields": ["id", "checksum", "games", "name", "slug"]
     },
     {
-        "endpoint": "game_localizations",
-        "fields": ["id", "checksum", "cover", "game", "name", "region"]
-    },
-    {
-        "endpoint": "regions",
-        "fields": ["id", "category", "checksum", "identifier", "name"]
+        "endpoint": "games",
+        "fields": [
+            "id", "artworks", "category", "checksum", "collections", "cover", "dlcs", "expansions", "franchises", "first_release_date",
+            "game_modes", "genres", "involved_companies", "language_supports", "multiplayer_modes",
+            "name", "parent_game", "platforms", "player_perspectives", "release_dates", "screenshots", "similar_games",
+            "slug", "standalone_expansions", "status", "storyline", "summary", "themes", "videos", "websites"
+        ]
     },
     {
         "endpoint": "game_modes",
-        "fields": ["id", "checksum", "name", "slug", "url"]
+        "fields": ["id", "checksum", "name", "slug"]
     },
     {
         "endpoint": "game_videos",
-        "fields": ["id", "checksum", "game", "name", "video_id"]
+        "fields": ["id", "game", "checksum", "name", "video_id"]
     },
     {
         "endpoint": "genres",
-        "fields": ["id", "checksum", "name", "slug", "url"]
+        "fields": ["id", "checksum", "name", "slug"]
     },
     {
         "endpoint": "involved_companies",
         "fields": ["id", "checksum", "company", "developer", "game", "porting", "publisher", "supporting"]
     },
     {
-        "endpoint": "companies",
-        "fields": ["id", "checksum", "country", "description", "developed", "logo", "name", "parent", "published", "slug", "url", "websites"]
-    },
-    {
-        "endpoint": "company_logos",
-        "fields": ["id", "animated", "checksum", "height", "image_id", "url", "width"]
-    },
-    {
-        "endpoint": "company_websites",
-        "fields": ["id", "category", "checksum", "trusted", "url"]
-    },
-    {
         "endpoint": "languages",
-        "fields": ["id", "checksum", "locale", "name", "native_name"]
+        "fields": ["id", "checksum", "name", "native_name"]
     },
     {
         "endpoint": "language_supports",
-        "fields": ["id", "checksum", "game", "language", "language_support_type"]
+        "fields": ["id", "game", "checksum", "language", "language_support_type"]
     },
     {
         "endpoint": "language_support_types",
@@ -103,16 +95,20 @@
         "fields": ["id", "checksum", "name", "slug", "url"]
     },
     {
+        "endpoint": "regions",
+        "fields": ["id", "category", "checksum", "identifier", "name"]
+    },
+    {
         "endpoint": "release_dates",
         "fields": ["id", "checksum", "category", "date", "game", "human", "m", "platform", "region", "y"]
     },
     {
         "endpoint": "screenshots",
-        "fields": ["id", "checksum", "animated", "game", "height", "image_id", "url", "width"]
+        "fields": ["id", "checksum", "animated", "game", "url"]
     },
     {
         "endpoint": "themes",
-        "fields": ["id", "checksum", "name", "slug", "url"]
+        "fields": ["id", "checksum", "name", "slug"]
     },
     {
         "endpoint": "websites",
