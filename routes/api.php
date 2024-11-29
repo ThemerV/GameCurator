@@ -22,11 +22,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/delete-account', [AuthController::class, 'deleteAccount']);
 });
 
-
+Route::get("/games", [GameController::class, 'index']);
+Route::get("/games/{game}", [GameController::class, 'show']);
+Route::post('/games/attach', [GameController::class, 'attachAll']);
 #reviews routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post("/reviews", [ReviewController::class, 'store']);
-    Route::get("/reviews", [ReviewController::class, 'index']);
+    Route::get('/reviews', [ReviewController::class, 'index']);
+    Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::get('/reviews/{review}', [ReviewController::class, 'show']);
+    Route::put('/reviews/{review}', [ReviewController::class, 'update']);
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
+    Route::get('/user/reviews', [ReviewController::class, 'getUserReviews']);
+    Route::get('/game/reviews/{id}', [ReviewController::class, 'getGameReviews']);
 });
 
 #playlists routes
