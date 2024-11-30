@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('playlist_game', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('playlist_id')->constrained()->onDelete('cascade');
             $table->integer('game_igdb_id')->index();
             $table->timestamps();

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('game_videos', function (Blueprint $table) {
             $table->id();
             $table->integer('igdb_id')->unique();
+            $table->integer('game_id');
             $table->uuid('checksum')->nullable();
             $table->string('name')->nullable();
             $table->string('video_id')->nullable();
