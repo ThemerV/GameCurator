@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Filament\Models\Contracts\FilamentUser;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable, HasApiTokens;
 
@@ -19,6 +20,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -56,6 +58,24 @@ class User extends Authenticatable
         return $this->hasMany(Playlist::class);
     }
 
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        return true; // Or add your access logic here
+    }
 
+    public function canAccessFilament(): bool
+    {
+        // Implement any authorization logic if needed
+        return true;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->username = strtolower(str_replace(' ', '_', $user->name)); // Automatically set username from name, you can change this logic
+        });
+    }
 
 }
