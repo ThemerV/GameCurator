@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Game;
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +17,16 @@ class ReviewFactory extends Factory
      *
      * @return array<string, mixed>
      */
+
+    protected $model = Review::class;
+
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'game_igdb_id' => Game::inRandomOrder()->first()->igdb_id,
+            'rating' => fake()->numberBetween(1, 5),
+            'comment' => fake()->paragraph,
         ];
     }
 }
