@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Game;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use JsonMachine\Items;
 class GameSeeder extends Seeder
 {
@@ -53,6 +52,7 @@ class GameSeeder extends Seeder
                 'screenshots_array' => $value->screenshots ?? null,
                 'similar_games_array' => $value->similar_games ?? null,
                 'slug' => $value->slug ?? null,
+                'status' => $value->status ?? null,
                 'storyline' => $value->storyline ?? null,
                 'summary' => $value->summary ?? null,
                 'themes_array' => $value->themes ?? null,
