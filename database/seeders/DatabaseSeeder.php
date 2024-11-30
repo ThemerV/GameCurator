@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Game;
+use App\Models\Playlist;
+use App\Models\Review;
 use App\Models\User;
+use Database\Factories\PlaylistGameFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,13 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         $this->call([
@@ -49,6 +46,16 @@ class DatabaseSeeder extends Seeder
             ThemeSeeder::class,
             WebsiteSeeder::class,
         ]);
+
+        User::factory(50)->create()->each(function ($user) {
+            $user->reviews()->saveMany(Review::factory(5)->make());
+            $user->playlists()->saveMany(Playlist::factory(5)->make());
+
+            $playlists = $user->playlists;
+            foreach ($playlists as $playlist) {
+                $playlist->games()->attach(Game::inRandomOrder()->take(3)->pluck('igdb_id')->toArray());
+            }
+        });
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
