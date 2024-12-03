@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PlaylistResource\Pages;
 use App\Filament\Resources\PlaylistResource\RelationManagers;
+use App\Filament\Resources\PlaylistResource\Widgets\PlaylistOverview;
 use App\Models\Playlist;
 use Filament\Forms;
 use Filament\Forms\Form;

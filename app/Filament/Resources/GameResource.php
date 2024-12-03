@@ -6,6 +6,8 @@ use App\Enums\GameCategoryEnum;
 use App\Enums\GameStatusEnum;
 use App\Filament\Resources\GameResource\Pages;
 use App\Filament\Resources\GameResource\RelationManagers;
+use App\Filament\Resources\GameResource\RelationManagers\ReviewsRelationManager;
+use App\Filament\Resources\GameResource\Widgets\GameOverview;
 use App\Models\Game;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -118,7 +120,7 @@ class GameResource extends Resource
                     ->searchable()
                     ->label('Nome'),
                 Tables\Columns\TextColumn::make('first_release_date')
-                    ->dateTime()
+                    ->dateTime('d/m/Y')
                     ->sortable()
                     ->label('Data de lançamento'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -129,6 +131,10 @@ class GameResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('reviews_count')
+                    ->counts('reviews')
+                    ->label('Avaliações')
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -146,7 +152,7 @@ class GameResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ReviewsRelationManager::class,
         ];
     }
 
@@ -156,6 +162,13 @@ class GameResource extends Resource
             'index' => Pages\ListGames::route('/'),
             'create' => Pages\CreateGame::route('/create'),
             'edit' => Pages\EditGame::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            GameOverview::class,
         ];
     }
 }
