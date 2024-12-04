@@ -128,7 +128,7 @@ def save_log(endpoint, total_fetched, error_message=None):
 
 def main():
     endpoints = load_endpoints()
-    max_items = 500  # Adjust this for the amount of data to fetch during testing
+    max_items = 5000  # Adjust this for the amount of data to fetch during testing
     total_elapsed_start_time = time.time()
     for endpoint_data in endpoints:
         endpoint = endpoint_data['endpoint']
