@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
 
         if (env('DB_CONNECTION') === 'pgsql') {
-            $tables = DB::select("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'");
+            $tables = DB::select("SELECT tablename FROM pg_tables WHERE schemaname = 'public';");
             foreach ($tables as $table) {
                 $tableName = $table->tablename;
                 DB::statement("ALTER TABLE {$tableName} DISABLE TRIGGER ALL;");
