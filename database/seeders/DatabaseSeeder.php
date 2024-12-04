@@ -21,6 +21,11 @@ class DatabaseSeeder extends Seeder
         if (env('DB_CONNECTION') === 'pgsql') {
             DB::beginTransaction();
             DB::statement('SET CONSTRAINTS ALL DEFERRED;');
+            $tables = DB::select("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'");
+            foreach ($tables as $table) {
+                $tableName = $table->tablename;
+                DB::statement("ALTER TABLE {$tableName} DISABLE TRIGGER ALL;");
+            }
         } else if (env('DB_CONNECTION') === 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         }
@@ -66,6 +71,10 @@ class DatabaseSeeder extends Seeder
         if (env('DB_CONNECTION') === 'pgsql') {
             DB::commit();
             DB::statement('SET CONSTRAINTS ALL IMMEDIATE;');
+            foreach ($tables as $table) {
+                $tableName = $table->tablename;
+                DB::statement("ALTER TABLE {$tableName} ENABLE TRIGGER ALL;");
+            }
         } else if (env('DB_CONNECTION') === 'mysql') {
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         }
