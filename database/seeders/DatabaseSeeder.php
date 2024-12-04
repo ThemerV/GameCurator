@@ -17,7 +17,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if (env('DB_CONNECTION') !== 'pgsql') {
+            $tables = DB::select("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'");
+            foreach ($tables as $table) {
+                $tableName = $table->tablename;
+                DB::statement("ALTER TABLE {$tableName} DISABLE TRIGGER ALL;");
+            }
+        }
+
+        if (env('DB_CONNECTION') === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        }
 
         $this->call([
             ArtworkSeeder::class,
@@ -57,6 +68,15 @@ class DatabaseSeeder extends Seeder
             }
         });
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        if (env('DB_CONNECTION') === 'pgsql') {
+            foreach ($tables as $table) {
+                $tableName = $table->tablename;
+                DB::statement("ALTER TABLE {$tableName} ENABLE TRIGGER ALL;");
+            }
+        }
+
+        if (env('DB_CONNECTION') === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
     }
 }
