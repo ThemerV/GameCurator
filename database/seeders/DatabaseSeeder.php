@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        if (env('DB_CONNECTION') !== 'pgsql') {
+        if (env('DB_CONNECTION') === 'pgsql') {
             $tables = DB::select("SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'");
             foreach ($tables as $table) {
                 $tableName = $table->tablename;
